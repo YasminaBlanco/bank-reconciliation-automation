@@ -1,0 +1,35 @@
+# --- Datos de clientes: NUNCA deben llegar al repositorio ---
+# Los CSV de data/ son ejemplos sintéticos y sí se versionan; cualquier
+# archivo real de un cliente va en data/private/, que queda fuera.
+data/private/
+*.private.csv
+*.private.xlsx
+
+# --- Reportes generados ---
+reports/
+*.xlsx
+!docs/**/*.xlsx
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# --- Entornos virtuales ---
+.venv/
+venv/
+env/
+
+# --- Editores / sistema operativo ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Credenciales GCP ---
+*-service-account.json
+*.pem
+.env

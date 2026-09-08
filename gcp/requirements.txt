@@ -1,0 +1,8 @@
+# Dependencias del despliegue en GCP (Cloud Function y Cloud Run).
+# Se instala este archivo, no el de la raíz: incluye el runtime del proyecto
+# más los clientes de Google Cloud.
+pandas==2.2.3
+openpyxl==3.1.5
+functions-framework==3.8.2
+google-cloud-storage==2.18.2
+google-cloud-pubsub==2.27.1
