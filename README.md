@@ -134,6 +134,7 @@ Todas las opciones: `python reconcile.py --help`
 | `--amount-tolerance` | Diferencia máxima para considerar dos montos iguales | `0.01` |
 | `--discrepancy-abs` | Diferencia absoluta máxima para reportar discrepancia | `50.00` |
 | `--discrepancy-pct` | Diferencia porcentual máxima para lo mismo | `5.0` |
+| `--debit-positive` | Invierte el signo con columnas débito/crédito separadas | off |
 | `--fail-on-exceptions` | Código de salida 2 si hay ítems por revisar | off |
 | `--quiet` | No imprimir el reporte en consola | off |
 | `--json-logs` | Logs en JSON para Cloud Logging | off |
@@ -150,11 +151,20 @@ CSV o Excel. Se aceptan encabezados en inglés o español (`date`/`fecha`,
 |---|---|---|
 | `date` | obligatoria | obligatoria |
 | `description` | obligatoria | obligatoria |
-| `amount` | obligatoria | obligatoria |
+| `amount` **o** `debito` + `credito` | obligatoria | obligatoria |
 | `account` | opcional | opcional |
 | `invoice_ref` | — | opcional |
 
+No hace falta preparar el archivo: se interpreta tal como lo exporta el banco.
+
 - **Montos**: se interpretan `$1,450.00`, `1.450,00`, `(89.50)` y `89.50-`.
+- **Débito y crédito separados**: muchos bancos no dan un monto con signo sino
+  dos columnas. Se combinan solas, tomando el débito como salida de dinero.
+  Con `--debit-positive` se invierte, para libros en convención contable.
+- **Separador y codificación**: se detectan automáticamente `,`, `;`, tabulación
+  y `|`, con o sin BOM, en UTF-8 o Latin-1.
+- **Filas de cortesía**: si el banco antepone su nombre, el número de cuenta y
+  el período antes de la tabla, se saltean solas.
 - **`account`**: si se usa, tiene que estar en **ambos** archivos. La
   conciliación corre por separado dentro de cada cuenta, nunca cruzada.
 - **Filas ilegibles**: van a la pestaña *Filas con problemas* con el número
@@ -182,8 +192,8 @@ columna *Sin explicar* del Resumen debe dar `0.00` exacto.
 python -m pytest
 ```
 
-106 tests sobre parseo de montos, validación de entrada, motor de matching,
-resumen, localización y CLI.
+125 tests sobre parseo de montos, formatos reales de banca, validación de
+entrada, motor de matching, resumen, localización y CLI.
 
 ## Estructura
 
@@ -198,7 +208,7 @@ gcp/
   main.py                 Cloud Function (trigger por archivo)
   job.py                  Cloud Run Job (programado)
   Dockerfile              imagen del job
-tests/                    106 tests con pytest
+tests/                    125 tests con pytest
 data/                     CSV de ejemplo (sintéticos)
 ```
 

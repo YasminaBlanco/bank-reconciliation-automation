@@ -102,6 +102,7 @@ def run(
     date_window: int = matching.DATE_WINDOW_DAYS,
     discrepancy_abs: float = matching.DISCREPANCY_ABS,
     discrepancy_pct: float = matching.DISCREPANCY_PCT,
+    debit_negative: bool = True,
     quiet: bool = False,
 ) -> dict:
     """Pipeline completo: cargar, conciliar, resumir, exportar.
@@ -110,7 +111,9 @@ def run(
     `out_path`, para que quien lo invoque (CLI, Cloud Function) decida qué
     hacer con el resultado.
     """
-    bank, ledger, rejected = load_transactions(bank_path, ledger_path)
+    bank, ledger, rejected = load_transactions(
+        bank_path, ledger_path, debit_negative=debit_negative
+    )
 
     results = reconcile(
         bank, ledger,
@@ -162,6 +165,10 @@ def build_parser() -> argparse.ArgumentParser:
                         help="Diferencia absoluta máxima para reportar una discrepancia.")
     tuning.add_argument("--discrepancy-pct", type=float, default=matching.DISCREPANCY_PCT,
                         help="Diferencia porcentual máxima para reportar una discrepancia.")
+    tuning.add_argument("--debit-positive", action="store_true",
+                        help="Invierte el signo cuando el archivo trae columnas de débito "
+                             "y crédito separadas: trata el débito como entrada de dinero "
+                             "(convención contable en vez de la del extracto bancario).")
 
     output = parser.add_argument_group("salida")
     output.add_argument("--quiet", action="store_true",
@@ -195,6 +202,7 @@ def main(argv=None) -> int:
             date_window=args.date_window,
             discrepancy_abs=args.discrepancy_abs,
             discrepancy_pct=args.discrepancy_pct,
+            debit_negative=not args.debit_positive,
             quiet=args.quiet,
         )
     except ReconciliationInputError as exc:
