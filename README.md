@@ -86,8 +86,11 @@ Vale la pena ser claro, para que sepas qué esperar:
 
 - **No decide por ti.** Marca la diferencia; el criterio de qué hacer con
   ella es tuyo.
-- **No se conecta solo a tu banco.** Trabaja sobre los archivos que
-  descargas. Conectar la API del banco es posible, pero es otro proyecto.
+- **No se conecta a tu banco, y nunca te pide tus claves.** Trabaja sobre el
+  archivo que vos descargás del home banking. No hay credenciales bancarias
+  en ninguna parte del sistema: nada que filtrar, nada que te puedan robar.
+  Conectar la API del banco es posible, pero es otro proyecto y otra
+  conversación sobre riesgo.
 - **No adivina.** Si dos movimientos no se parecen lo suficiente, los deja
   como partidas sueltas en vez de emparejarlos por conveniencia.
 - **No lee escaneos.** Trabaja con CSV y Excel, no con fotos del extracto.
@@ -209,6 +212,19 @@ y estimación de costos.
 de argparse, así que la Cloud Function lo invoca directamente.
 
 </details>
+
+---
+
+## Licencia
+
+Publicado bajo la **[PolyForm Shield License 1.0.0](LICENSE)**. En criollo:
+
+- **Podés** leerlo, estudiarlo, modificarlo y usarlo en tu propio negocio,
+  incluso para ganar dinero con él.
+- **No podés** usarlo para ofrecer un producto o servicio que compita con el
+  de la autora.
+
+Si necesitás una licencia comercial sin esa restricción, escribime.
 
 ---
 
